@@ -17,12 +17,12 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkFileChooserButton" id="file_chooser">
+              <object class="GtkFileChooserButton" id="directory_chooser">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="action">select-folder</property>
                 <property name="title" translatable="yes">file</property>
-                <signal name="file-set" handler="on_file_chooser_directory_set" swapped="no"/>
+                <signal name="file-set" handler="on_directory_chooser" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

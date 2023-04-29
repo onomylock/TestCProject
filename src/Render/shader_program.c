@@ -1,4 +1,5 @@
-#include "shader_program.h"
+//#include "shader_program.h"
+#include "../main.h"
 
 char* get_shader_content(const char* fileName)
 {

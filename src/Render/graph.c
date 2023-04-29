@@ -1,13 +1,15 @@
-#include <stdio.h>
-#include <math.h>
+// #include <stdio.h>
+// #include <math.h>
 
-#include <glib.h>
-//#include <epoxy/gl.h>
-//#include <glad/glad.h>
-//#include <GL/gl.h>
+// #include <glib.h>
+// #include <epoxy/gl.h>
+// //#include <glad/glad.h>
+// //#include <GL/gl.h>
 
-#include "graph.h"
-#include "ui.h"
+// #include "graph.h"
+// #include "ui.h"
+
+#include "../main.h"
 
 
 static GLuint vbo = 0;

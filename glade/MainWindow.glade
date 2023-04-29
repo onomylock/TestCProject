@@ -17,11 +17,12 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkFileChooserButton" id="file_chooser">
+              <object class="GtkFileChooserButton" id="directory_chooser">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="action">select-folder</property>
                 <property name="title" translatable="yes">file</property>
-                <signal name="file-set" handler="on_file_chooser_file_set" swapped="no"/>
+                <signal name="file-set" handler="on_file_chooser_directory_set" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -97,7 +98,8 @@
                 <property name="visible">True</property>
                 <property name="app-paintable">True</property>
                 <property name="can-focus">False</property>
-                <signal name="draw" handler="draw_curve" swapped="no"/>
+                <signal name="button-press-event" handler="right_button_press_event_curve" swapped="no"/>
+                <signal name="realize" handler="realize_curve" swapped="no"/>
                 <signal name="render" handler="render_curve" swapped="no"/>
                 <signal name="resize" handler="resize_curve" swapped="no"/>
               </object>
@@ -114,7 +116,8 @@
                 <property name="app-paintable">True</property>
                 <property name="can-focus">False</property>
                 <property name="use-es">True</property>
-                <signal name="draw" handler="draw_view2d" swapped="no"/>
+                <signal name="button-press-event" handler="right_button_press_event_view2d" swapped="no"/>
+                <signal name="realize" handler="realize_view2d" swapped="no"/>
                 <signal name="render" handler="render_view2d" swapped="no"/>
                 <signal name="resize" handler="resize_view2d" swapped="no"/>
               </object>

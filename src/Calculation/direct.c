@@ -1,4 +1,5 @@
-#include "direct.h"
+//#include "direct.h"
+#include "../main.h"
 
 static Direct _direct;
 Direct* direct_calc = &_direct;
@@ -75,7 +76,7 @@ int load(const char* fileName, enum FileType fileType)
 int save(const char* fileName, enum FileType fileType)
 {
     char *c;
-    int size, iter;
+    int size;
     FILE* fp = fopen(fileName, "wb");
     if (!fp)
     {
@@ -91,7 +92,7 @@ int save(const char* fileName, enum FileType fileType)
     {
         c = (char *)&direct_calc->N;
     }
-    for (int i = 0; i < sizeof(int); i++)
+    for (int i = 0; i < (int)sizeof(int); i++)
     {
         putc(*c++, fp);
     }
@@ -119,13 +120,13 @@ int save(const char* fileName, enum FileType fileType)
 
 double get_r(Cell cell, Receiver receiver)
 {
-    return sqrt(pow(gsl_vector_get(cell.Center, 0) - gsl_vector_get(receiver.Point, 0), 2) + 
-    pow(gsl_vector_get(cell.Center, 1) - gsl_vector_get(receiver.Point, 1), 2));
+    return sqrt(pow(cell.Center->x - receiver.Point->x, 2) + 
+    pow(cell.Center->y - receiver.Point->y, 2));
 }
 
 double get_cell_area(Cell cell)
 {
-    return (gsl_vector_get(cell.nodes[1], 0) - gsl_vector_get(cell.nodes[0], 0)) * (gsl_vector_get(cell.nodes[1], 1) - gsl_vector_get(cell.nodes[0], 1));
+    return (cell.nodes[1]->x - cell.nodes[0]->x) * (cell.nodes[1]->y - cell.nodes[0]->y);
 }
 
 int calculate()
@@ -143,15 +144,15 @@ int calculate()
         {
             r = get_r(direct_calc->cellObjects[j], direct_calc->receivers[i]);
             square = get_cell_area(direct_calc->cellObjects[j]);
-            x = gsl_vector_get(direct_calc->receivers[i].Point, 0) - gsl_vector_get(direct_calc->cellObjects[j].Center, 0);
-            y = gsl_vector_get(direct_calc->receivers[i].Point, 1) - gsl_vector_get(direct_calc->cellObjects[j].Center, 1);
+            x = direct_calc->receivers[i].Point->x - direct_calc->cellObjects[j].Center->x;
+            y = direct_calc->receivers[i].Point->y - direct_calc->cellObjects[j].Center->y;
             coef = square * direct_calc->cellObjects[j].I / (4 * M_PI * pow(r, 3));
 
-            gsl_vector_set(direct_calc->receivers[i].B, 0, coef * (gsl_vector_get(direct_calc->cellObjects[j].P, 0) * (3 * pow(x, 2) / pow(r,2)) 
-             + gsl_vector_get(direct_calc->cellObjects[j].P, 1) * 3 * x * y / pow(r, 2)));
+            direct_calc->receivers[i].B->x = coef * direct_calc->cellObjects[j].P->x * (3 * pow(x, 2) / pow(r,2)) 
+             + direct_calc->cellObjects[j].P->y * 3 * x * y / pow(r, 2);
             
-            gsl_vector_set(direct_calc->receivers[i].B, 1, coef * (gsl_vector_get(direct_calc->cellObjects[j].P, 0) * (3 * x * y / pow(r,2)) 
-             + gsl_vector_get(direct_calc->cellObjects[j].P, 1) * (3 * pow(y, 2) / pow(r, 2) - 1)));            
+            direct_calc->receivers[i].B->y = coef * direct_calc->cellObjects[j].P->x * 3 * x * y / pow(r,2) 
+             + direct_calc->cellObjects[j].P->y * (3 * pow(y, 2) / pow(r, 2) - 1);            
         }
     }
     return 0;

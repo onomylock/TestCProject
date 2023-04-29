@@ -1,7 +1,8 @@
-#include "ui.h"
-#include <gtk-3.0/gtk/gtk.h>
+// #include "ui.h"
+// #include <gtk-3.0/gtk/gtk.h>
 
 //#include "graph.h"
+#include "../main.h"
 
 static UI _ui;
 UI* ui = &_ui;
@@ -27,7 +28,7 @@ void ui_init()
 	gtk_widget_show_all(ui->main_window);
 }
 
-void on_exit_app(GtkWidget *window)
+void on_exit_app()
 {
 	gtk_main_quit();
 }
@@ -36,12 +37,12 @@ void on_file_chooser_file_set(GtkFileChooserButton *fileChooserButton)
 {	
 	char *str = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserButton));
 	char *str1 = strstr(str, ".");
-	if (str1 == ".cells")
+	if (strcmp(str1, ".cells"))
 	{		
 		load(str, CELLS);
 		printf("file name = %s\n", gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserButton)));
 	}
-	else if (str1 == ".recivers")
+	else if (strcmp(str1,".recivers"))
 	{		
 		load(str, RECEIVERS);
 		printf("file name = %s\n", gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserButton)));
@@ -56,34 +57,4 @@ void on_button_direct_clicked(GtkWidget *button_direct)
 void on_button_inverce_clicked(GtkWidget *button_inverce)
 {
 	g_print("Button1 pressed\n");
-}
-
-void render_curve(GtkWidget *curve_area)
-{
-
-}
-
-void resize_curve(GtkWidget *curve_area)
-{
-
-}
-
-void draw_curve(GtkWidget *curve_area)
-{
-	
-}
-
-void render_view2d(GtkWidget *view2d_area)
-{
-
-}
-
-void resize_view2d(GtkWidget *view2d_area)
-{
-
-}
-
-void draw_view2d(GtkWidget *view2d_area)
-{
-
 }
